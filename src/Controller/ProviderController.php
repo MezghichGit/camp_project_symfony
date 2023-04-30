@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 #[Route('/provider')]
 class ProviderController extends AbstractController
@@ -29,6 +30,30 @@ class ProviderController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            //Upload de la photo du provider
+            $logo = $form->get('logo')->getData();
+
+
+            if ($logo) {
+                $originalLogoname = pathinfo($logo->getClientOriginalName(), PATHINFO_FILENAME);
+
+                $newLogoname =   $originalLogoname.'-'.uniqid().'.'.$logo->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $logo->move(
+                        $this->getParameter('provider_directory'),
+                        $newLogoname
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                $provider->setLogo($newLogoname);
+            }
+            //fin Upload
+
             $providerRepository->save($provider, true);
 
             return $this->redirectToRoute('app_provider_index', [], Response::HTTP_SEE_OTHER);
@@ -55,6 +80,29 @@ class ProviderController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            //Upload de la photo du provider
+            $logo = $form->get('logo')->getData();
+
+
+            if ($logo) {
+                $originalLogoname = pathinfo($logo->getClientOriginalName(), PATHINFO_FILENAME);
+
+                $newLogoname =   $originalLogoname.'-'.uniqid().'.'.$logo->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $logo->move(
+                        $this->getParameter('provider_directory'),
+                        $newLogoname
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                $provider->setLogo($newLogoname);
+            }
+            //fin Upload
+
             $providerRepository->save($provider, true);
 
             return $this->redirectToRoute('app_provider_index', [], Response::HTTP_SEE_OTHER);
