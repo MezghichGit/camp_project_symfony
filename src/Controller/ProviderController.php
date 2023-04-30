@@ -51,9 +51,10 @@ class ProviderController extends AbstractController
                 }
 
                 $provider->setLogo($newLogoname);
+
             }
             //fin Upload
-
+            $provider->setCreatedAt(new \DateTimeImmutable());
             $providerRepository->save($provider, true);
 
             return $this->redirectToRoute('app_provider_index', [], Response::HTTP_SEE_OTHER);

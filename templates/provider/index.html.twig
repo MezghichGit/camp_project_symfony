@@ -1,43 +1,49 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Provider index{% endblock %}
+
 
 {% block body %}
-    <h1>Provider index</h1>
+<h3 align="center">Liste de nos providers</h3>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="card">
+				<div class="card-body">
+					<div class="active-member">
+						<div class="table-responsive">
+							<table class="table table-xs mb-0">
+								<thead>
+									<tr>
+										<th>Id</th>
+										<th>Label</th>
+										<th>Email</th>
+										<th>Logo</th>
+										<th>Adresse</th>
+										<th>CreatedAt</th>
+										<th>actions</th>
+									</tr>
+								</thead>
 
-    <table class="table" border="1">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Label</th>
-                <th>Email</th>
-                <th>Logo</th>
-                <th>Adresse</th>
-                <th>CreatedAt</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for provider in providers %}
-            <tr>
-                <td>{{ provider.id }}</td>
-                <td>{{ provider.label }}</td>
-                <td>{{ provider.email }}</td>
-                <td><img src="{{ asset('uploads/providers/' ~ provider.logo ) }} " width="150" height="100"/></td>
-                <td>{{ provider.adresse }}</td>
-                <td>{{ provider.createdAt ? provider.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_provider_show', {'id': provider.id}) }}">show</a>
-                    <a href="{{ path('app_provider_edit', {'id': provider.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_provider_new') }}">Create new</a>
-{% endblock %}
+								<tbody>
+									<tr>
+										{% for provider in providers %}
+											<tr>
+												<td>{{ provider.id }}</td>
+												<td>{{ provider.label }}</td>
+												<td>{{ provider.email }}</td>
+												<td><img src="{{ asset('uploads/providers/' ~ provider.logo ) }} " width="100" height="50"/></td>
+												<td>{{ provider.adresse }}</td>
+												<td>{{ provider.createdAt ? provider.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+												<td>
+													<a href="{{ path('app_provider_show', {'id': provider.id}) }}">show</a>
+													<a href="{{ path('app_provider_edit', {'id': provider.id}) }}">edit</a>
+												</td>
+											</tr>
+										{% else %}
+											<tr>
+												<td colspan="7">no records found</td>
+											</tr>
+										{% endfor %}
+									</tr>
+								</tbody>
+							</table>
+						{% endblock %}
