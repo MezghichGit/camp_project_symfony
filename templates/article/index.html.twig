@@ -26,8 +26,8 @@
                  <td>{{ article.provider.label }}</td>
                 <td>{{ article.prix }}</td>
                 <td>{{ article.createAt ? article.createAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ article.photoface }}</td>
-                <td>{{ article.photoprofil }}</td>
+                <td><img src="{{ asset('uploads/articles/' ~ article.photoface  ) }} " width="150" height="100"/></td>
+                <td><img src="{{ asset('uploads/articles/' ~ article.photoprofil  ) }} " width="150" height="100"/></td>
                 <td>
                     <a href="{{ path('app_article_show', {'id': article.id}) }}">show</a>
                     <a href="{{ path('app_article_edit', {'id': article.id}) }}">edit</a>

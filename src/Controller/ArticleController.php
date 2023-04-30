@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 #[Route('/article')]
 class ArticleController extends AbstractController
@@ -29,6 +30,51 @@ class ArticleController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            //Upload de la photo de face pour article
+            $photoface = $form->get('photoface')->getData();
+
+
+            if ($photoface) {
+                $originalLogoname = pathinfo($photoface->getClientOriginalName(), PATHINFO_FILENAME);
+
+                $newLogoname =   $originalLogoname.'-'.uniqid().'.'.$photoface->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                   $photoface->move(
+                        $this->getParameter('article_directory'),
+                        $newLogoname
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                $article->setPhotoface($newLogoname);
+            }
+            //fin Upload
+
+             //Upload de la photo du provider
+             $photoprofil = $form->get('photoprofil')->getData();
+
+
+           if ($photoprofil) {
+               $originalLogoname = pathinfo($photoprofil->getClientOriginalName(), PATHINFO_FILENAME);
+
+               $newLogoname =   $originalLogoname.'-'.uniqid().'.'.$photoprofil->guessExtension();
+
+               // Move the file to the directory where brochures are stored
+               try {
+                   $photoprofil->move(
+                       $this->getParameter('article_directory'),
+                       $newLogoname
+                   );
+               } catch (FileException $e) {
+                   // ... handle exception if something happens during file upload
+               }
+
+               $article->setPhotoprofil($newLogoname);
+           }
+           //fin Upload
             $articleRepository->save($article, true);
 
             return $this->redirectToRoute('app_article_index', [], Response::HTTP_SEE_OTHER);
@@ -55,6 +101,53 @@ class ArticleController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+             //Upload de la photo de face pour article
+             $photoface = $form->get('photoface')->getData();
+
+
+             if ($photoface) {
+                 $originalLogoname = pathinfo($photoface->getClientOriginalName(), PATHINFO_FILENAME);
+ 
+                 $newLogoname =   $originalLogoname.'-'.uniqid().'.'.$photoface->guessExtension();
+ 
+                 // Move the file to the directory where brochures are stored
+                 try {
+                    $photoface->move(
+                         $this->getParameter('article_directory'),
+                         $newLogoname
+                     );
+                 } catch (FileException $e) {
+                     // ... handle exception if something happens during file upload
+                 }
+ 
+                 $article->setPhotoface($newLogoname);
+             }
+             //fin Upload
+
+              //Upload de la photo du provider
+              $photoprofil = $form->get('photoprofil')->getData();
+
+
+            if ($photoprofil) {
+                $originalLogoname = pathinfo($photoprofil->getClientOriginalName(), PATHINFO_FILENAME);
+
+                $newLogoname =   $originalLogoname.'-'.uniqid().'.'.$photoprofil->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $photoprofil->move(
+                        $this->getParameter('article_directory'),
+                        $newLogoname
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                $article->setPhotoprofil($newLogoname);
+            }
+            //fin Upload
+
             $articleRepository->save($article, true);
 
             return $this->redirectToRoute('app_article_index', [], Response::HTTP_SEE_OTHER);
