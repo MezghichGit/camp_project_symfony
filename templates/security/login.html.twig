@@ -40,7 +40,10 @@
                             <a class="text-center" href=""> <h4>Connexion</h4></a>
 
                             <form class="mt-5 mb-5 login-input" method="post">
-                   
+                                {% if error %}
+                                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                                {% endif %}
+
                                 <div class="form-group">
                                     <input type="email"  value="{{ last_username }}" name="email" id="inputEmail" class="form-control" placeholder="Email">
                                 </div>

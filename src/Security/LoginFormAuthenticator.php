@@ -15,7 +15,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
-
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 {
     use TargetPathTrait;
@@ -26,7 +26,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
     {
     }
 
-
+    
     public function authenticate(Request $request): Passport
     {
         $email = $request->request->get('email', '');
@@ -37,7 +37,8 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         if($user->isVerified()==false)
         {
            // return new RedirectResponse($this->urlGenerator->generate('inscription_KO'));
-           throw new \Exception('User not verified');
+           //throw new \Exception('User not verified');
+           throw new CustomUserMessageAuthenticationException('Votre compte est désactivé.');
         }
         return new Passport(
             new UserBadge($email),
