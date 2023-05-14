@@ -10,11 +10,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 #[Route('/article')]
 class ArticleController extends AbstractController
 {
     #[Route('/', name: 'app_article_index', methods: ['GET'])]
+    #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_AGENT')  ")]
     public function index(ArticleRepository $articleRepository): Response
     {
         return $this->render('article/index.html.twig', [
@@ -23,6 +24,7 @@ class ArticleController extends AbstractController
     }
 
     #[Route('/new', name: 'app_article_new', methods: ['GET', 'POST'])]
+    #[Security("is_granted('ROLE_ADMIN')")]
     public function new(Request $request, ArticleRepository $articleRepository): Response
     {
         $article = new Article();
@@ -87,13 +89,14 @@ class ArticleController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_article_show', methods: ['GET'])]
+    #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_AGENT')  ")]
     public function show(Article $article): Response
     {
         return $this->render('article/show.html.twig', [
             'article' => $article,
         ]);
     }
-
+    #[Security("is_granted('ROLE_ADMIN')")]
     #[Route('/{id}/edit', name: 'app_article_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Article $article, ArticleRepository $articleRepository): Response
     {
@@ -158,7 +161,7 @@ class ArticleController extends AbstractController
             'form' => $form,
         ]);
     }
-
+    #[Security("is_granted('ROLE_ADMIN')")]
     #[Route('/{id}', name: 'app_article_delete', methods: ['POST'])]
     public function delete(Request $request, Article $article, ArticleRepository $articleRepository): Response
     {

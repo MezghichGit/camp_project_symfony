@@ -256,7 +256,9 @@
                         </a>
                         <ul aria-expanded="false">
                             <li><a href="{{path('app_provider_index')}}">Liste</a></li>
+                            {% if app.user.roles[0]== "ROLE_ADMIN" %}
                             <li><a href="{{path('app_provider_new')}}">Ajouter</a></li>
+                            {% endif %}
                         </ul>
                     </li>
 
@@ -265,8 +267,10 @@
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Articles</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="#">Liste</a></li>
-                            <li><a href="#">Ajouter</a></li>
+                            <li><a href="{{path('app_article_index')}}">Liste</a></li>
+                            {% if app.user.roles[0]== "ROLE_ADMIN" %}
+                            <li><a href="{{path('app_article_new')}}">Ajouter</a></li>
+                             {% endif %}
                         </ul>
                     </li>
 

@@ -23,4 +23,12 @@ class UtilController extends AbstractController
             //'controller_name' => 'UtilController',
         ]);
     }
+
+    #[Route('/erreur403', name: 'access_denied')]
+    public function index403(): Response
+    {
+        return $this->render('util/error403.html.twig', [
+            //'controller_name' => 'UtilController',
+        ]);
+    }
 }

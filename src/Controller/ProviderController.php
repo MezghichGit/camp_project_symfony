@@ -10,11 +10,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 #[Route('/provider')]
 class ProviderController extends AbstractController
 {
     #[Route('/', name: 'app_provider_index', methods: ['GET'])]
+    #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_AGENT')  ")]
     public function index(ProviderRepository $providerRepository): Response
     {
         return $this->render('provider/index.html.twig', [
@@ -23,6 +25,7 @@ class ProviderController extends AbstractController
     }
 
     #[Route('/new', name: 'app_provider_new', methods: ['GET', 'POST'])]
+    #[Security("is_granted('ROLE_ADMIN')")]
     public function new(Request $request, ProviderRepository $providerRepository): Response
     {
         $provider = new Provider();
@@ -67,13 +70,14 @@ class ProviderController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_provider_show', methods: ['GET'])]
+    #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_AGENT')  ")]
     public function show(Provider $provider): Response
     {
         return $this->render('provider/show.html.twig', [
             'provider' => $provider,
         ]);
     }
-
+    #[Security("is_granted('ROLE_ADMIN')")]
     #[Route('/{id}/edit', name: 'app_provider_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Provider $provider, ProviderRepository $providerRepository): Response
     {
@@ -116,6 +120,7 @@ class ProviderController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_provider_delete', methods: ['POST'])]
+    #[Security("is_granted('ROLE_ADMIN')")]
     public function delete(Request $request, Provider $provider, ProviderRepository $providerRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$provider->getId(), $request->request->get('_token'))) {

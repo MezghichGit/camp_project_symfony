@@ -19,7 +19,9 @@
 										<th>Logo</th>
 										<th>Adresse</th>
 										<th>CreatedAt</th>
+										 {% if app.user.roles[0]== "ROLE_ADMIN" %}
 										<th>actions</th>
+										 {% endif %}
 									</tr>
 								</thead>
 
@@ -33,10 +35,12 @@
 												<td><img src="{{ asset('uploads/providers/' ~ provider.logo ) }} " width="100" height="50"/></td>
 												<td>{{ provider.adresse }}</td>
 												<td>{{ provider.createdAt ? provider.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+												 {% if app.user.roles[0]== "ROLE_ADMIN" %}
 												<td>
 													<a href="{{ path('app_provider_show', {'id': provider.id}) }}">show</a>
 													<a href="{{ path('app_provider_edit', {'id': provider.id}) }}">edit</a>
 												</td>
+												 {% endif %}
 											</tr>
 										{% else %}
 											<tr>
