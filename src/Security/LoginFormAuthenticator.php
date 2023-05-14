@@ -38,7 +38,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         {
            // return new RedirectResponse($this->urlGenerator->generate('inscription_KO'));
            //throw new \Exception('User not verified');
-           throw new CustomUserMessageAuthenticationException('Votre compte est désactivé.');
+          throw new CustomUserMessageAuthenticationException('Votre compte est désactivé.');
         }
         return new Passport(
             new UserBadge($email),

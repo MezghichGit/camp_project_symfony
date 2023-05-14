@@ -35,33 +35,18 @@
         <div class="row justify-content-center h-100">
             <div class="col-xl-6">
                 <div class="form-input-content">
+
                     <div class="card login-form mb-0">
                         <div class="card-body pt-5">
-                            <a class="text-center" href=""> <h4>Connexion</h4></a>
 
-                            <form class="mt-5 mb-5 login-input" method="post">
-                                {% if error %}
-                                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                                {% endif %}
-
-                                <div class="form-group">
-                                    <input type="email"  value="{{ last_username }}" name="email" id="inputEmail" class="form-control" placeholder="Email">
-                                </div>
-                                <div class="form-group">
-                                    
-                                    <input type="password" name="password" id="inputPassword" autocomplete="current-password" required class="form-control" placeholder="Password">
-                                </div>
-
-                                <input type="hidden" name="_csrf_token"
-                                       value="{{ csrf_token('authenticate') }}">
-                                <button class="btn login-form__btn submit w-100" type="submit">Connexion</button>
-                        
-                                        <a href="{{ path('app_forgot_password_request') }}" class="text-primary">Mot de passe oublié? </a>
-                            </form>
-                            <p class="mt-5 login-form__footer">Vous n'avez pas de compte? <a href="{{path('app_register')}}" class="text-primary">S'inscrire </a> maintenant</p>
-
+                            <p>
+                                If an account matching your email exists, then an email was just sent that contains a link that you can use to reset your password.
+                                This link will expire in {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
+                            </p>
+                            <p>If you don't receive an email please check your spam folder or <a href="{{ path('app_forgot_password_request') }}">try again</a>.</p>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -79,3 +64,8 @@
 <script src="{{asset('back/js/styleSwitcher.js')}}"></script>
 </body>
 </html>
+
+
+
+
+
