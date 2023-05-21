@@ -274,6 +274,18 @@
                         </ul>
                     </li>
 
+                         <li>
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Settings</span>
+                        </a>
+                        <ul aria-expanded="false">
+                         {% if app.user.roles[0]== "ROLE_ADMIN" %}
+                            <li><a href="{{path('app_settings_index')}}">Liste</a></li>
+                    
+                             {% endif %}
+                        </ul>
+                    </li>
+
 
                   
                     
